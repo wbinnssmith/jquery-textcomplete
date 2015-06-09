@@ -275,7 +275,7 @@ if (typeof jQuery === 'undefined') {
           self.dropdown.clear();
           self._clearAtNext = false;
         }
-        self.dropdown.render(self._zip(data, strategy));
+        self.dropdown.render(self._zip(data, strategy, term));
         if (!stillSearching) {
           // The last callback in the current lock.
           free();
@@ -290,9 +290,9 @@ if (typeof jQuery === 'undefined') {
     //
     //  this._zip(['a', 'b'], 's');
     //  //=> [{ value: 'a', strategy: 's' }, { value: 'b', strategy: 's' }]
-    _zip: function (data, strategy) {
+    _zip: function (data, strategy, term) {
       return $.map(data, function (value) {
-        return { value: value, strategy: strategy };
+        return { value: value, strategy: strategy, term: term };
       });
     }
   });
@@ -687,7 +687,7 @@ if (typeof jQuery === 'undefined') {
         index = this.data.length;
         this.data.push(datum);
         html += '<li class="textcomplete-item" data-index="' + index + '"><a>';
-        html +=   datum.strategy.template(datum.value);
+        html +=   datum.strategy.template(datum.value, datum.term);
         html += '</a></li>';
       }
       return html;
